@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package unspsc;
+
+service Unspscs {
+    // 全部国际商品及服务编码
+    rpc All(Request) returns (Response) {}
+    // 获取国际商品及服务编码编码列表
+    rpc List(Request) returns (Response) {}
+    // 根据 唯一 获取国际商品及服务编码编码信息 
+    rpc Get(Request) returns (Response) {}
+    // 创建国际商品及服务编码编码
+    rpc Create(Request) returns (Response) {}
+    // 更新国际商品及服务编码编码
+    rpc Update(Request) returns (Response) {}
+    // 删除国际商品及服务编码编码
+    rpc Delete(Request) returns (Response) {}
+    // 微服务之间调用
+}
+// 数据库 Unspscs
+message Unspsc {
+    int64 id = 1;               // 国际商品及服务编码编码ID
+    int64 parent = 2;           // 上级国际商品及服务编码编码ID
+    string name = 3;            // 名称
+    string created_at = 4;
+    string updated_at = 5;
+}
+
+message Request {
+    Unspsc Unspsc = 2;          // 国际商品及服务编码编码主信息
+}
+
+message Response {
+    Unspsc unspsc = 1;              // 国际商品及服务编码编码详细信息
+    repeated Unspsc unspscs = 2;    // 国际商品及服务编码编码详细信息
+    bool valid = 3;                 // 操作状态返回
+}

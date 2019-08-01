@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package auth;
+
+service Auth {
+    // 用户验证授权
+    rpc Auth(User) returns (Token) {}
+    // token 验证
+    rpc ValidateToken(Request) returns (Token) {}
+
+    // 只限微服务之间调用
+    // 根据用户ID获取授权
+    rpc AuthById(User) returns (Token) {}
+    
+
+}
+
+message User {
+    string id = 1;
+    string username = 2;
+    string mobile = 3;
+    string email = 4;
+    string password = 5;
+}
+
+message Request{
+    string token = 1;
+    string service = 2;
+    string method = 3;
+}
+
+message Token {
+    string token = 1;
+    bool valid = 2;
+    User user = 3;
+    repeated Error errors = 4;
+}
+message Error {
+    string code = 1;
+    string description = 2;
+}

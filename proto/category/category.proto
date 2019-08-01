@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package category;
+
+service Categorys {
+    // 全部分类
+    rpc All(Request) returns (Response) {}
+    // 获取分类列表
+    rpc List(Request) returns (Response) {}
+    // 根据 唯一 获取分类信息 
+    rpc Get(Request) returns (Response) {}
+    // 创建分类
+    rpc Create(Request) returns (Response) {}
+    // 更新分类
+    rpc Update(Request) returns (Response) {}
+    // 删除分类
+    rpc Delete(Request) returns (Response) {}
+    // 微服务之间调用
+}
+// 数据库 categories
+message Category {
+    int64 id = 1;               // 分类ID
+    int64 parent = 2;           // 上级分类ID
+    string name = 3;            // 名称
+    string created_at = 4;
+    string updated_at = 5;
+}
+
+message Request {
+    Category Category = 1;        // 分类主信息
+}
+
+message Response {
+    Category category = 1;           // 分类详细信息
+    repeated Category categorys = 2; // 分类详细信息
+    bool valid = 3;                // 操作状态返回
+}

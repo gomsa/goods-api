@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package permission;
+
+service Permissions {
+    // 权限验证授权
+    // 全部权限
+    rpc All(Request) returns (Response) {}
+    // 获取权限列表
+    rpc List(ListQuery) returns (Response) {}
+    // 根据 唯一 获取权限
+    rpc Get(Permission) returns (Response) {}
+    // 创建权限
+    rpc Create(Permission) returns (Response) {}
+    // 更新权限
+    rpc Update(Permission) returns (Response) {}
+    // 删除权限
+    rpc Delete(Permission) returns (Response) {}
+    // 微服务内部调用
+    // 同步
+    rpc UpdateOrCreate(Permission) returns (Response) {}
+
+}
+
+message Permission {
+    int64 id = 1;
+    string service = 2;
+    string method = 3;
+    string name = 4;
+    string description = 5;
+    string created_at = 6;
+    string updated_at = 7;
+}
+
+message ListQuery{
+    int64 limit=1; //返回数量
+    int64 page=2; //页面
+    string sort=3; // 排序
+    string service = 4;
+    string method = 5;
+    string name = 6;
+}
+
+message Request{
+}
+
+message Response{
+    Permission permission = 1;
+    repeated Permission permissions = 2;
+    int64 total = 3;
+    bool valid = 4;
+}

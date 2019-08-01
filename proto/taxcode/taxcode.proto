@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package taxcode;
+
+service Taxcodes {
+    // 全部国家税收分类编码
+    rpc All(Request) returns (Response) {}
+    // 获取国家税收分类编码列表
+    rpc List(Request) returns (Response) {}
+    // 根据 唯一 获取国家税收分类编码信息 
+    rpc Get(Request) returns (Response) {}
+    // 创建国家税收分类编码
+    rpc Create(Request) returns (Response) {}
+    // 更新国家税收分类编码
+    rpc Update(Request) returns (Response) {}
+    // 删除国家税收分类编码
+    rpc Delete(Request) returns (Response) {}
+    // 微服务之间调用
+}
+            
+// 数据库 Taxcodes
+message Taxcode {
+    int64 id = 1;               // 国家税收分类编码ID
+    int64 parent = 2;           // 上级国家税收分类编码ID
+    int64 cess = 3;             // 税率减免后
+    int64 code = 4;             // 编码
+    string name = 5;            // 名称
+    string free = 6;            // 税率
+    string duty_free = 7;       // 税收减免情况
+    string duty_free_desc = 8;  // 税收减免情况详情
+    string instruction = 9;     // 说明
+    string keyword = 10;        // 关键词
+    string version = 11;        // 版本
+    string created_at = 12;
+    string updated_at = 13;
+}
+
+message ListQuery{
+    int64 limit=1;          //返回数量
+    int64 page=2;           //页面
+    string sort=3;          //排序
+}
+
+message Request {
+    ListQuery list_query = 1;   // 列表分页请求
+    Taxcode Taxcode = 2;        // 国家税收分类编码主信息
+}
+
+message Response {
+    Taxcode taxcode = 1;           // 国家税收分类编码详细信息
+    repeated Taxcode taxcodes = 2; // 国家税收分类编码详细信息
+    bool valid = 3;                // 操作状态返回
+}

@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package department;
+
+service Departments {
+    // 全部部门
+    rpc All(Request) returns (Response) {}
+    // 获取部门编码列表
+    rpc List(Request) returns (Response) {}
+    // 根据 唯一 获取部门编码信息 
+    rpc Get(Request) returns (Response) {}
+    // 创建部门编码
+    rpc Create(Request) returns (Response) {}
+    // 更新部门编码
+    rpc Update(Request) returns (Response) {}
+    // 删除部门编码
+    rpc Delete(Request) returns (Response) {}
+    // 微服务之间调用
+}
+// 数据库 Departments
+message Department {
+    int64 id = 1;
+    int64 parent = 2;       // 父级 id
+    string name = 3;        // 部门名称
+    string phone = 4;       // 部门电话
+    string manages = 5;     // 管理者 一般保存 userId ... 可以保存多个用户 ID
+    string created_at = 6;
+    string updated_at = 7;
+}
+
+message ListQuery{
+    int64 limit=1;          //返回数量
+    int64 page=2;           //页面
+    string sort=3;          //排序
+}
+
+message Request {
+    ListQuery list_query = 1;           // 列表分页请求
+    Department Department = 2;          // 部门编码主信息
+}
+
+message Response {
+    Department department = 1;              // 部门编码详细信息
+    repeated Department departments = 2;    // 部门编码详细信息
+    bool valid = 3;                 // 操作状态返回
+}

@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package user;
+
+service Users {
+    // 用过 用户名、邮箱、手机 查询用户是否存在
+    rpc Exist(User) returns (Response) {}
+
+    // 获取用户列表
+    rpc List(ListQuery) returns (Response) {}
+    // 根据 唯一 获取用户
+    rpc Get(User) returns (Response) {}
+    // 创建用户
+    rpc Create(User) returns (Response) {}
+    // 更新用户
+    rpc Update(User) returns (Response) {}
+    // 删除用户
+    rpc Delete(User) returns (Response) {}
+    // 微服务之间调用
+}
+
+message User {
+    string id = 1;
+    string username = 2;
+    string mobile = 3;
+    string email = 4;
+    string password = 5;
+    string name = 6;
+    string avatar = 7;
+    string origin = 8; //用户注册来源
+    string created_at = 9;
+    string updated_at = 10;
+}
+message ListQuery{
+    int64 limit=1; //返回数量
+    int64 page=2; //页面
+    string sort=3; // 排序
+    string username = 4;
+    string mobile = 5;
+    string email = 6;
+}
+message Request {
+}
+
+message Response {
+    User user = 1;
+    repeated User users = 2;
+    int64 total = 3;
+    bool valid = 4;
+}

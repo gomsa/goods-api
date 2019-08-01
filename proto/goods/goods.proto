@@ -1,0 +1,145 @@
+syntax = "proto3";
+
+package goods;
+
+service Goods {
+    // 根据条形码查询商品
+    rpc GoodsByBarcode(Request) returns (Response) {}
+    // 查询条形码是否存在
+    rpc Exist(Request) returns (Response) {}
+    // 删除商品条码
+    rpc DeleteBarcode(Request) returns (Response) {}
+    // 获取商品列表
+    rpc List(Request) returns (Response) {}
+    // 根据 唯一 获取商品信息 
+    rpc Get(Request) returns (Response) {}
+    // 创建商品
+    rpc Create(Request) returns (Response) {}
+    // 更新商品
+    rpc Update(Request) returns (Response) {}
+    // 删除商品
+    rpc Delete(Request) returns (Response) {}
+    // 微服务之间调用
+}
+// 数据库 goods
+message Good {
+    string id = 1;                  // 商品ID(UUID)
+    string code = 2;                // 自编码(货号)
+    string name = 3;                // 商品名称
+    string eng_name = 4;            // 英文名称
+    string description = 5;         // 商品描述
+    int64 status = 6;               // 商品状态(下架-1、上架1、线上2、外卖3)
+    int64 brand_id = 7;             // 品牌ID
+    int64 category_id = 8;          // 商品分类ID
+    int64 department_id = 9;        // 商品分类ID
+    int64 firm_id = 10;              // 所属公司ID
+    int64 unspsc_id = 11;           // 商品及服务编码
+    int64 taxcode_id = 12;          // 税收分类编码
+    int64 cess = 13;                // 税率
+    string created_at = 14;
+    string updated_at = 15;
+    repeated Barcode barcodes = 16; // 商品条形码详情
+    Brand brand = 17;               // 关联品牌
+    Category category = 18;         // 分类信息
+    Department department = 19;     // 部门信息
+    Firm firm = 20;                 // 所属公司信息
+    Unspsc unspsc = 21;             // 国际商品及服务编码
+    Taxcode taxcode = 22;           // 国家税收信息
+}
+
+// 数据库 barcodes
+message Barcode {
+    string id = 1;               // 商品条码()
+    string good_id = 2;         // 商品UUID
+    string stock_id = 3;        // 库存自动UUID(多条码可以使用一个库存[禁止不同价格使用同一库存UUID])
+    int64 price = 4;            // 价格
+    int64 width = 5;            // 宽(毫米)
+    int64 height = 6;           // 高(毫米)
+    int64 depth = 7;            // 深(毫米)
+    string unit = 8;            // 单位(件、个、斤...)
+    string spec = 9;            // 规格(口味)
+    int64 grossweight = 10;     // 总重(克)
+    int64 netweight = 11;       // 净重(克)
+    string img = 12;            // 主图
+    string barcode_img = 13;    // 条码图
+    string created_at = 14;
+    string updated_at = 15;
+}
+
+// 数据库 Brands
+message Brand {
+    int64 id = 1;               // 品牌ID
+    string name = 2;            // 品牌名称
+    string logo = 3;            // 品牌LOGO
+    string description = 4;     // 品牌描述
+    string created_at = 5;
+    string updated_at = 6;
+}
+// 数据库 categories
+message Category {
+    int64 id = 1;               // 分类ID
+    int64 parent = 2;           // 上级分类ID
+    string name = 3;            // 名称
+    string created_at = 4;
+    string updated_at = 5;
+}
+// 数据库 departments
+message Department {
+    int64 id = 1;
+    int64 parent = 2;  // 父级 id
+    string name = 3;    // 部门名称
+    string phone = 4;   // 部门电话
+    string manages = 5; // 管理者 一般保存 userId ... 可以保存多个用户 ID
+    string created_at = 6;
+    string updated_at = 7;
+}
+// 数据库 Firms
+message Firm {
+    int64 id = 1;                   // 商品公司ID
+    string name = 2;                // 商品公司名称
+    string address = 3;             // 地址
+    string created_at = 4;
+    string updated_at = 5;
+}
+// 数据库 Unspscs
+message Unspsc {
+    int64 id = 1;               // 国际商品及服务编码编码ID
+    int64 parent = 2;           // 上级国际商品及服务编码编码ID
+    string name = 3;            // 名称
+    string created_at = 4;
+    string updated_at = 5;
+}
+// 数据库 Taxcodes
+message Taxcode {
+    int64 id = 1;               // 国家税收分类编码ID
+    int64 parent = 2;           // 上级国家税收分类编码ID
+    int64 cess = 3;             // 税率减免后
+    int64 code = 4;             // 编码
+    string name = 5;            // 名称
+    string free = 6;            // 税率
+    string duty_free = 7;       // 税收减免情况
+    string duty_free_desc = 8;  // 税收减免情况详情
+    string instruction = 9;     // 说明
+    string keyword = 10;        // 关键词
+    string version = 11;        // 版本
+    string created_at = 12;
+    string updated_at = 13;
+}
+
+message ListQuery{
+    int64 limit=1;          //返回数量
+    int64 page=2;           //页面
+    string sort=3;          //排序
+}
+
+message Request {
+    ListQuery list_query = 1;   // 列表分页请求
+    Good good = 2;              // 商品主信息
+    Barcode barcode = 3;              // 商品主信息
+}
+
+message Response {
+    Good good = 1;           // 商品详细信息
+    repeated Good goods = 2; // 商品详细信息
+    bool valid = 3;          // 操作状态返回
+}

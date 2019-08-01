@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package casbin;
+
+service Casbin {
+    // 角色权限管理
+    rpc AddPermission(Request) returns (Response) {}
+    rpc DeletePermissions(Request) returns (Response) {}
+    rpc UpdatePermissions(Request) returns (Response) {}
+    rpc GetPermissions(Request) returns (Response) {}
+    // 用户角色管理
+    rpc AddRole(Request) returns (Response) {}
+    rpc DeleteRoles(Request) returns (Response) {}
+    rpc UpdateRoles(Request) returns (Response) {}
+    rpc GetRoles(Request) returns (Response) {}
+
+    // 微服务内部调用
+    // 验证用户权限
+    rpc Validate(Request) returns (Response) {}
+}
+
+message Permission{
+    string service = 1;
+    string method = 2;
+}
+
+message Request{
+    string label = 1; // 角色标识  可以是 userId 也可以是 其他角色标识 role label
+    string role = 2;
+    repeated string roles = 3;
+    Permission permission = 4;
+    repeated Permission permissions = 5;
+}
+
+message Response{
+    bool valid = 1;
+    string label = 2; // 角色标识  可以是 userId 也可以是 其他角色标识 role label
+    string role = 3;
+    repeated string roles = 4;
+    Permission permission = 5;
+    repeated Permission permissions = 6;
+}

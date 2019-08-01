@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package frontPermit;
+
+service FrontPermits {
+    // 权限验证授权
+    // 全部权限
+    rpc All(Request) returns (Response) {}
+    // 获取权限列表
+    rpc List(ListQuery) returns (Response) {}
+    // 根据 唯一 获取权限
+    rpc Get(FrontPermit) returns (Response) {}
+    // 创建权限
+    rpc Create(FrontPermit) returns (Response) {}
+    // 更新权限
+    rpc Update(FrontPermit) returns (Response) {}
+    // 删除权限
+    rpc Delete(FrontPermit) returns (Response) {}
+    // 同步前端权限 允许外部权限  需要最高 root 权限  *********高危 调用慎重*********
+    rpc UpdateOrCreate(FrontPermit) returns (Response) {}
+
+}
+
+message FrontPermit {
+    int64 id = 1;
+    string app = 2;
+    string service = 3;
+    string method = 4;
+    string name = 5;
+    string description = 6;
+    string created_at = 7;
+    string updated_at = 8;
+}
+
+message ListQuery{
+    int64 limit=1; //返回数量
+    int64 page=2; //页面
+    string sort=3; // 排序
+    string service = 4;
+    string method = 5;
+    string name = 6;
+}
+
+message Request{
+}
+
+message Response{
+    FrontPermit frontPermit = 1;
+    repeated FrontPermit frontPermits = 2;
+    int64 total = 3;
+    bool valid = 4;
+}

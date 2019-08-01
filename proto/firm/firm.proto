@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package firm;
+
+service Firms {
+    // 品牌是否存在
+    rpc Exist(Request) returns (Response) {}
+    // 全部商品公司
+    rpc All(Request) returns (Response) {}
+    // 获取商品公司列表
+    rpc List(Request) returns (Response) {}
+    // 根据 唯一 获取商品公司信息 
+    rpc Get(Request) returns (Response) {}
+    // 创建商品公司
+    rpc Create(Request) returns (Response) {}
+    // 更新商品公司
+    rpc Update(Request) returns (Response) {}
+    // 删除商品公司
+    rpc Delete(Request) returns (Response) {}
+    // 微服务之间调用
+}
+// 数据库 Firms
+message Firm {
+    int64 id = 1;                   // 商品公司ID
+    string name = 2;                // 商品公司名称
+    string address = 3;             // 地址
+    string created_at = 4;
+    string updated_at = 5;
+}
+
+message ListQuery{
+    int64 limit=1;          //返回数量
+    int64 page=2;           //页面
+    string sort=3;          //排序
+}
+
+message Request {
+    ListQuery list_query = 1;   // 列表分页请求
+    Firm Firm = 2;              // 商品公司主信息
+}
+
+message Response {
+    Firm firm = 1;                  // 商品公司详细信息
+    repeated Firm firms = 2;        // 商品公司详细信息
+    bool valid = 3;                 // 操作状态返回
+}

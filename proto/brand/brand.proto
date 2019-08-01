@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package brand;
+
+service Brands {
+    // 品牌是否存在
+    rpc Exist(Request) returns (Response) {}
+    // 全部品牌
+    rpc All(Request) returns (Response) {}
+    // 获取品牌列表
+    rpc List(Request) returns (Response) {}
+    // 根据 唯一 获取品牌信息 
+    rpc Get(Request) returns (Response) {}
+    // 创建品牌
+    rpc Create(Request) returns (Response) {}
+    // 更新品牌
+    rpc Update(Request) returns (Response) {}
+    // 删除品牌
+    rpc Delete(Request) returns (Response) {}
+    // 微服务之间调用
+}
+// 数据库 Brands
+message Brand {
+    int64 id = 1;               // 品牌ID
+    string name = 2;            // 品牌名称
+    string logo = 3;            // 品牌LOGO
+    string description = 4;            // 品牌描述
+    string created_at = 5;
+    string updated_at = 6;
+}
+
+message ListQuery{
+    int64 limit=1;          //返回数量
+    int64 page=2;           //页面
+    string sort=3;          //排序
+}
+
+message Request {
+    ListQuery list_query = 1;   // 列表分页请求
+    Brand Brand = 2;        // 品牌主信息
+}
+
+message Response {
+    Brand brand = 1;           // 品牌详细信息
+    repeated Brand brands = 2; // 品牌详细信息
+    bool valid = 3;                // 操作状态返回
+}

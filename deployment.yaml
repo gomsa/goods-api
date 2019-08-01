@@ -1,0 +1,66 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: goods-api
+  namespace: api
+spec:
+  selector:
+    app: goods-api
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 8080
+      name: micro
+      targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: goods-api
+  namespace: api
+  labels:
+    app: goods-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: goods-api
+  template:
+    metadata:
+      labels:
+        app: goods-api
+    spec:
+      imagePullSecrets:
+      - name: pipeline-docker-registry
+      containers:
+        - name: goods-api
+          image: ${CICD_IMAGE}:${CICD_EXECUTION_SEQUENCE}
+          imagePullPolicy: Always
+          command: [
+            "service",
+            "--selector=static",
+            "--server_address=:8080",
+          ]
+          env:
+            - name: USER_NAME
+              value: "user.srv"
+            - name: DEPARTMENT_NAME
+              value: "goods.srv"
+          ports:
+          - containerPort: 8080
+            name: micro
+            protocol: TCP
+        - name: health
+          image: microhq/health:kubernetes
+          command: [
+            "/health",
+            "--health_address=0.0.0.0:8081",
+            "--server_name=goods-api",
+            "--server_address=0.0.0.0:8080"
+          ]
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8081
+            initialDelaySeconds: 3
+            periodSeconds: 3
