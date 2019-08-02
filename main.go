@@ -2,6 +2,7 @@ package main
 
 import (
 	// 公共引入
+
 	micro "github.com/micro/go-micro"
 	"github.com/micro/go-micro/util/log"
 	k8s "github.com/micro/kubernetes/go/micro"
@@ -11,12 +12,12 @@ import (
 	m "github.com/gomsa/user/middleware"
 
 	// 接口引用
-	brandPB "github.com/gomsa/goods-api/proto/brand"
-	categoryPB "github.com/gomsa/goods-api/proto/category"
-	departmentPB "github.com/gomsa/goods-api/proto/department"
-	firmPB "github.com/gomsa/goods-api/proto/firm"
+	// brandPB "github.com/gomsa/goods-api/proto/brand"
+	// categoryPB "github.com/gomsa/goods-api/proto/category"
+	// departmentPB "github.com/gomsa/goods-api/proto/department"
+	// firmPB "github.com/gomsa/goods-api/proto/firm"
 	goodsPB "github.com/gomsa/goods-api/proto/goods"
-	unspscPB "github.com/gomsa/goods-api/proto/unspsc"
+	// unspscPB "github.com/gomsa/goods-api/proto/unspsc"
 )
 
 func main() {
@@ -33,11 +34,11 @@ func main() {
 
 	// 服务实现
 	goodsPB.RegisterGoodsHandler(srv.Server(), &hander.Goods{})
-	brandPB.RegisterBrandsHandler(srv.Server(), &hander.Brand{})
-	firmPB.RegisterFirmsHandler(srv.Server(), &hander.Firm{})
-	categoryPB.RegisterCategorysHandler(srv.Server(), &hander.Category{})
-	departmentPB.RegisterDepartmentsHandler(srv.Server(), &hander.Department{})
-	unspscPB.RegisterUnspscsHandler(srv.Server(), &hander.Unspsc{})
+	// brandPB.RegisterBrandsHandler(srv.Server(), &hander.Brand{})
+	// firmPB.RegisterFirmsHandler(srv.Server(), &hander.Firm{})
+	// categoryPB.RegisterCategorysHandler(srv.Server(), &hander.Category{})
+	// departmentPB.RegisterDepartmentsHandler(srv.Server(), &hander.Department{})
+	// unspscPB.RegisterUnspscsHandler(srv.Server(), &hander.Unspsc{})
 
 	// Run the server
 	if err := srv.Run(); err != nil {
