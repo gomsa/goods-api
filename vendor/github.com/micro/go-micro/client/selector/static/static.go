@@ -2,11 +2,8 @@
 package static
 
 import (
-	"net"
-	"strconv"
-
+	"github.com/micro/go-micro/client/selector"
 	"github.com/micro/go-micro/registry"
-	"github.com/micro/go-micro/selector"
 )
 
 // staticSelector is a static selector
@@ -26,20 +23,10 @@ func (s *staticSelector) Options() selector.Options {
 }
 
 func (s *staticSelector) Select(service string, opts ...selector.SelectOption) (selector.Next, error) {
-	var port int
-	addr, pt, err := net.SplitHostPort(service)
-	if err != nil {
-		addr = service
-		port = 0
-	} else {
-		port, _ = strconv.Atoi(pt)
-	}
-
 	return func() (*registry.Node, error) {
 		return &registry.Node{
 			Id:      service,
-			Address: addr,
-			Port:    port,
+			Address: service,
 		}, nil
 	}, nil
 }

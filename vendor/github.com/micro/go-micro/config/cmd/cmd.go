@@ -32,9 +32,10 @@ import (
 	rmem "github.com/micro/go-micro/registry/memory"
 
 	// selectors
-	"github.com/micro/go-micro/selector"
-	"github.com/micro/go-micro/selector/dns"
-	"github.com/micro/go-micro/selector/static"
+	"github.com/micro/go-micro/client/selector"
+	"github.com/micro/go-micro/client/selector/dns"
+	"github.com/micro/go-micro/client/selector/router"
+	"github.com/micro/go-micro/client/selector/static"
 
 	// transports
 	"github.com/micro/go-micro/transport"
@@ -196,6 +197,7 @@ var (
 		"default": selector.NewSelector,
 		"dns":     dns.NewSelector,
 		"cache":   selector.NewSelector,
+		"router":  router.NewSelector,
 		"static":  static.NewSelector,
 	}
 

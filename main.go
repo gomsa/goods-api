@@ -18,6 +18,8 @@ import (
 	// firmPB "github.com/gomsa/goods-api/proto/firm"
 	goodsPB "github.com/gomsa/goods-api/proto/goods"
 	// unspscPB "github.com/gomsa/goods-api/proto/unspsc"
+
+	"github.com/gomsa/tools/config"
 )
 
 func main() {

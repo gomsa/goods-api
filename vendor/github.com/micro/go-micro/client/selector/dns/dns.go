@@ -2,11 +2,12 @@
 package dns
 
 import (
+	"fmt"
 	"net"
 	"strconv"
 
+	"github.com/micro/go-micro/client/selector"
 	"github.com/micro/go-micro/registry"
-	"github.com/micro/go-micro/selector"
 )
 
 type dnsSelector struct {
@@ -66,8 +67,7 @@ func (d *dnsSelector) Select(service string, opts ...selector.SelectOption) (sel
 	for _, node := range srv {
 		nodes = append(nodes, &registry.Node{
 			Id:      node.Target,
-			Address: node.Target,
-			Port:    int(node.Port),
+			Address: fmt.Sprintf("%s:%d", node.Target, node.Port),
 		})
 	}
 
