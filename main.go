@@ -2,6 +2,7 @@ package main
 
 import (
 	// 公共引入
+	"os"
 
 	micro "github.com/micro/go-micro"
 	"github.com/micro/go-micro/util/log"
@@ -33,14 +34,14 @@ func main() {
 		micro.WrapHandler(h.Wrapper), //验证权限
 	)
 	srv.Init()
-
+	serviceName := os.Getenv("USER_NAME")
 	// 服务实现
-	goodsPB.RegisterGoodsHandler(srv.Server(), &hander.Goods{})
-	// brandPB.RegisterBrandsHandler(srv.Server(), &hander.Brand{})
-	// firmPB.RegisterFirmsHandler(srv.Server(), &hander.Firm{})
-	// categoryPB.RegisterCategorysHandler(srv.Server(), &hander.Category{})
-	// departmentPB.RegisterDepartmentsHandler(srv.Server(), &hander.Department{})
-	// unspscPB.RegisterUnspscsHandler(srv.Server(), &hander.Unspsc{})
+	goodsPB.RegisterGoodsHandler(srv.Server(), &hander.Goods{serviceName})
+	// brandPB.RegisterBrandsHandler(srv.Server(), &hander.Brand{serviceName})
+	// firmPB.RegisterFirmsHandler(srv.Server(), &hander.Firm{serviceName})
+	// categoryPB.RegisterCategorysHandler(srv.Server(), &hander.Category{serviceName})
+	// departmentPB.RegisterDepartmentsHandler(srv.Server(), &hander.Department{serviceName})
+	// unspscPB.RegisterUnspscsHandler(srv.Server(), &hander.Unspsc{serviceName})
 
 	// Run the server
 	if err := srv.Run(); err != nil {
