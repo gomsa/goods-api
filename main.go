@@ -7,9 +7,10 @@ import (
 	micro "github.com/micro/go-micro"
 	"github.com/micro/go-micro/util/log"
 	k8s "github.com/micro/kubernetes/go/micro"
+	"github.com/gomsa/tools/k8s/client"
 
 	"github.com/gomsa/goods-api/hander"
-	"github.com/gomsa/user/client"
+	userClient "github.com/gomsa/user/client"
 	m "github.com/gomsa/user/middleware"
 
 	// 接口引用
@@ -19,8 +20,6 @@ import (
 	// firmPB "github.com/gomsa/goods-api/proto/firm"
 	goodsPB "github.com/gomsa/goods-api/proto/goods"
 	// unspscPB "github.com/gomsa/goods-api/proto/unspsc"
-
-	"github.com/gomsa/tools/config"
 )
 
 func main() {
@@ -34,9 +33,11 @@ func main() {
 		micro.WrapHandler(h.Wrapper), //验证权限
 	)
 	srv.Init()
+
 	serviceName := os.Getenv("USER_NAME")
+	c := client.NewClient()
 	// 服务实现
-	goodsPB.RegisterGoodsHandler(srv.Server(), &hander.Goods{serviceName})
+	goodsPB.RegisterGoodsHandler(srv.Server(), &hander.Goods{c,serviceName})
 	// brandPB.RegisterBrandsHandler(srv.Server(), &hander.Brand{serviceName})
 	// firmPB.RegisterFirmsHandler(srv.Server(), &hander.Firm{serviceName})
 	// categoryPB.RegisterCategorysHandler(srv.Server(), &hander.Category{serviceName})
@@ -48,7 +49,7 @@ func main() {
 		log.Log(err)
 	}
 	// 同步权限
-	if err := client.SyncPermission(Conf.Permissions); err != nil {
+	if err := userClient.SyncPermission(Conf.Permissions); err != nil {
 		log.Log(err)
 	}
 	log.Log("serviser run ...")
