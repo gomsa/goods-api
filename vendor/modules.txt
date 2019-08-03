@@ -11,7 +11,7 @@ github.com/golang/protobuf/ptypes/struct
 github.com/golang/protobuf/ptypes/any
 github.com/golang/protobuf/ptypes/duration
 github.com/golang/protobuf/ptypes/timestamp
-# github.com/gomsa/tools v0.0.0-20190615000832-56bbd6704f6b
+# github.com/gomsa/tools v0.0.0-20190803010621-41e4027d207c
 github.com/gomsa/tools/config
 github.com/gomsa/tools/k8s/client
 # github.com/gomsa/user v0.0.0-20190713014816-bcd837144465
