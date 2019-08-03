@@ -16,10 +16,10 @@ type Goods struct {
 }
 
 // GoodsByBarcode 根据条形码查询商品
-func (srv *Goods) GoodsByBarcode(ctx context.Context, request *pb.Request, out *pb.Response) (err error) {
+func (srv *Goods) GoodsByBarcode(ctx context.Context, request *pb.Request, res *pb.Response) (err error) {
 	req := srv.C.NewRequest(srv.ServiceName, "Goods.GoodsByBarcode", request)
-	err = srv.C.Call(ctx, req, out)
-	log.Log(ctx, req, out)
+	err = srv.C.Call(ctx, req, res)
+	log.Log(err, ctx, req, res)
 	return err
 }
 
