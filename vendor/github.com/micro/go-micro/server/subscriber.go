@@ -11,7 +11,6 @@ import (
 	"github.com/micro/go-micro/codec"
 	"github.com/micro/go-micro/metadata"
 	"github.com/micro/go-micro/registry"
-	"github.com/micro/go-micro/util/buf"
 )
 
 const (
@@ -166,7 +165,7 @@ func validateSubscriber(sub Subscriber) error {
 }
 
 func (s *rpcServer) createSubHandler(sb *subscriber, opts Options) broker.Handler {
-	return func(p broker.Event) error {
+	return func(p broker.Publication) error {
 		msg := p.Message()
 
 		// get codec
@@ -211,11 +210,11 @@ func (s *rpcServer) createSubHandler(sb *subscriber, opts Options) broker.Handle
 				req = req.Elem()
 			}
 
-			b := buf.New(bytes.NewBuffer(msg.Body))
+			b := &buffer{bytes.NewBuffer(msg.Body)}
 			co := cf(b)
 			defer co.Close()
 
-			if err := co.ReadHeader(&codec.Message{}, codec.Event); err != nil {
+			if err := co.ReadHeader(&codec.Message{}, codec.Publication); err != nil {
 				return err
 			}
 

@@ -22,6 +22,17 @@ var (
 	timeout = time.Millisecond * 10
 )
 
+/*
+// Setup sets mock data
+func (m *Registry) Setup() {
+	m.Lock()
+	defer m.Unlock()
+
+	// add some memory data
+	m.Services = Data
+}
+*/
+
 func (m *Registry) watch(r *registry.Result) {
 	var watchers []*Watcher
 
@@ -55,7 +66,7 @@ func (m *Registry) Init(opts ...registry.Option) error {
 	m.Lock()
 	for k, v := range getServices(m.options.Context) {
 		s := m.Services[k]
-		m.Services[k] = registry.Merge(s, v)
+		m.Services[k] = addServices(s, v)
 	}
 	m.Unlock()
 	return nil
@@ -65,20 +76,20 @@ func (m *Registry) Options() registry.Options {
 	return m.options
 }
 
-func (m *Registry) GetService(name string) ([]*registry.Service, error) {
+func (m *Registry) GetService(service string) ([]*registry.Service, error) {
 	m.RLock()
-	service, ok := m.Services[name]
-	m.RUnlock()
-	if !ok {
+	s, ok := m.Services[service]
+	if !ok || len(s) == 0 {
+		m.RUnlock()
 		return nil, registry.ErrNotFound
 	}
-
-	return service, nil
+	m.RUnlock()
+	return s, nil
 }
 
 func (m *Registry) ListServices() ([]*registry.Service, error) {
-	var services []*registry.Service
 	m.RLock()
+	var services []*registry.Service
 	for _, service := range m.Services {
 		services = append(services, service...)
 	}
@@ -88,14 +99,11 @@ func (m *Registry) ListServices() ([]*registry.Service, error) {
 
 func (m *Registry) Register(s *registry.Service, opts ...registry.RegisterOption) error {
 	go m.watch(&registry.Result{Action: "update", Service: s})
-	m.Lock()
-	if service, ok := m.Services[s.Name]; !ok {
-		m.Services[s.Name] = []*registry.Service{s}
-	} else {
-		m.Services[s.Name] = registry.Merge(service, []*registry.Service{s})
-	}
-	m.Unlock()
 
+	m.Lock()
+	services := addServices(m.Services[s.Name], []*registry.Service{s})
+	m.Services[s.Name] = services
+	m.Unlock()
 	return nil
 }
 
@@ -103,15 +111,9 @@ func (m *Registry) Deregister(s *registry.Service) error {
 	go m.watch(&registry.Result{Action: "delete", Service: s})
 
 	m.Lock()
-	if service, ok := m.Services[s.Name]; ok {
-		if service := registry.Remove(service, []*registry.Service{s}); len(service) == 0 {
-			delete(m.Services, s.Name)
-		} else {
-			m.Services[s.Name] = service
-		}
-	}
+	services := delServices(m.Services[s.Name], []*registry.Service{s})
+	m.Services[s.Name] = services
 	m.Unlock()
-
 	return nil
 }
 

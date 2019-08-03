@@ -13,6 +13,8 @@ import (
 	"net/http"
 	"net/url"
 	"runtime"
+	"strconv"
+	"strings"
 	"sync"
 	"time"
 
@@ -57,7 +59,7 @@ type httpSubscriber struct {
 	hb    *httpBroker
 }
 
-type httpEvent struct {
+type httpPublication struct {
 	m *Message
 	t string
 }
@@ -153,15 +155,15 @@ func newHttpBroker(opts ...Option) Broker {
 	return h
 }
 
-func (h *httpEvent) Ack() error {
+func (h *httpPublication) Ack() error {
 	return nil
 }
 
-func (h *httpEvent) Message() *Message {
+func (h *httpPublication) Message() *Message {
 	return h.m
 }
 
-func (h *httpEvent) Topic() string {
+func (h *httpPublication) Topic() string {
 	return h.t
 }
 
@@ -321,7 +323,7 @@ func (h *httpBroker) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	p := &httpEvent{m: m, t: topic}
+	p := &httpPublication{m: m, t: topic}
 	id := req.Form.Get("id")
 
 	h.RLock()
@@ -401,7 +403,6 @@ func (h *httpBroker) Connect() error {
 	go func() {
 		h.run(l)
 		h.Lock()
-		h.opts.Addrs = []string{addr}
 		h.address = addr
 		h.Unlock()
 	}()
@@ -541,7 +542,7 @@ func (h *httpBroker) Publish(topic string, msg *Message, opts ...PublishOption) 
 		vals := url.Values{}
 		vals.Add("id", node.Id)
 
-		uri := fmt.Sprintf("%s://%s%s?%s", scheme, node.Address, DefaultSubPath, vals.Encode())
+		uri := fmt.Sprintf("%s://%s:%d%s?%s", scheme, node.Address, node.Port, DefaultSubPath, vals.Encode())
 		r, err := h.c.Post(uri, "application/json", bytes.NewReader(b))
 		if err != nil {
 			return err
@@ -612,15 +613,12 @@ func (h *httpBroker) Publish(topic string, msg *Message, opts ...PublishOption) 
 }
 
 func (h *httpBroker) Subscribe(topic string, handler Handler, opts ...SubscribeOption) (Subscriber, error) {
-	var err error
-	var host, port string
 	options := NewSubscribeOptions(opts...)
 
 	// parse address for host, port
-	host, port, err = net.SplitHostPort(h.Address())
-	if err != nil {
-		return nil, err
-	}
+	parts := strings.Split(h.Address(), ":")
+	host := strings.Join(parts[:len(parts)-1], ":")
+	port, _ := strconv.Atoi(parts[len(parts)-1])
 
 	addr, err := maddr.Extract(host)
 	if err != nil {
@@ -639,7 +637,8 @@ func (h *httpBroker) Subscribe(topic string, handler Handler, opts ...SubscribeO
 	// register service
 	node := &registry.Node{
 		Id:      id,
-		Address: mnet.HostPort(addr, port),
+		Address: addr,
+		Port:    port,
 		Metadata: map[string]string{
 			"secure": fmt.Sprintf("%t", secure),
 		},

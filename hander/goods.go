@@ -11,14 +11,14 @@ import (
 
 // Goods 部门结构
 type Goods struct {
-	c           client.Client
-	serviceName string
+	C           client.Client
+	ServiceName string
 }
 
 // GoodsByBarcode 根据条形码查询商品
 func (srv *Goods) GoodsByBarcode(ctx context.Context, request *pb.Request, out *pb.Response) (err error) {
-	req := srv.c.NewRequest(srv.serviceName, "Goods.GoodsByBarcode", request)
-	err = srv.c.Call(ctx, req, out)
+	req := srv.C.NewRequest(srv.ServiceName, "Goods.GoodsByBarcode", request)
+	err = srv.C.Call(ctx, req, out)
 	log.Log(ctx, req, out)
 	return err
 }

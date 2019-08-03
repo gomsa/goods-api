@@ -44,7 +44,7 @@ spec:
           env:
             - name: USER_NAME
               value: "user.srv"
-            - name: DEPARTMENT_NAME
+            - name: GOODS_NAME
               value: "goods.srv"
           ports:
           - containerPort: 8080

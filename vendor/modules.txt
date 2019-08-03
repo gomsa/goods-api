@@ -6,12 +6,12 @@ github.com/go-log/log/log
 # github.com/golang/protobuf v1.3.2
 github.com/golang/protobuf/proto
 github.com/golang/protobuf/jsonpb
-github.com/golang/protobuf/ptypes/struct
 github.com/golang/protobuf/ptypes
+github.com/golang/protobuf/ptypes/struct
 github.com/golang/protobuf/ptypes/any
 github.com/golang/protobuf/ptypes/duration
 github.com/golang/protobuf/ptypes/timestamp
-# github.com/gomsa/tools v0.0.0-20190728030143-d6f50b9a663c
+# github.com/gomsa/tools v0.0.0-20190615000832-56bbd6704f6b
 github.com/gomsa/tools/config
 github.com/gomsa/tools/k8s/client
 # github.com/gomsa/user v0.0.0-20190713014816-bcd837144465
@@ -65,18 +65,17 @@ github.com/micro/go-grpc/client
 github.com/micro/go-grpc/server
 # github.com/micro/go-log v0.1.0
 github.com/micro/go-log
-# github.com/micro/go-micro v1.8.1
+# github.com/micro/go-micro v1.7.0 => github.com/micro/go-micro v1.7.0
 github.com/micro/go-micro
 github.com/micro/go-micro/util/log
 github.com/micro/go-micro/client
 github.com/micro/go-micro/server
-github.com/micro/go-micro/metadata
 github.com/micro/go-micro/broker
-github.com/micro/go-micro/client/selector
-github.com/micro/go-micro/config/cmd
+github.com/micro/go-micro/cmd
+github.com/micro/go-micro/metadata
 github.com/micro/go-micro/registry
+github.com/micro/go-micro/selector
 github.com/micro/go-micro/transport
-github.com/micro/go-micro/client/pool
 github.com/micro/go-micro/codec
 github.com/micro/go-micro/codec/bytes
 github.com/micro/go-micro/codec/grpc
@@ -85,57 +84,53 @@ github.com/micro/go-micro/codec/jsonrpc
 github.com/micro/go-micro/codec/proto
 github.com/micro/go-micro/codec/protorpc
 github.com/micro/go-micro/errors
-github.com/micro/go-micro/util/buf
 github.com/micro/go-micro/server/debug
 github.com/micro/go-micro/util/addr
-github.com/micro/go-micro/util/net
 github.com/micro/go-micro/registry/cache
+github.com/micro/go-micro/util/net
 github.com/micro/go-micro/util/tls
 github.com/micro/go-micro/broker/http
 github.com/micro/go-micro/broker/memory
 github.com/micro/go-micro/broker/nats
 github.com/micro/go-micro/client/grpc
 github.com/micro/go-micro/client/mucp
-github.com/micro/go-micro/client/selector/dns
-github.com/micro/go-micro/client/selector/router
-github.com/micro/go-micro/client/selector/static
 github.com/micro/go-micro/registry/consul
 github.com/micro/go-micro/registry/gossip
 github.com/micro/go-micro/registry/mdns
 github.com/micro/go-micro/registry/memory
+github.com/micro/go-micro/selector/dns
+github.com/micro/go-micro/selector/static
 github.com/micro/go-micro/server/grpc
 github.com/micro/go-micro/server/mucp
 github.com/micro/go-micro/transport/grpc
 github.com/micro/go-micro/transport/http
 github.com/micro/go-micro/transport/memory
 github.com/micro/go-micro/server/debug/proto
-github.com/micro/go-micro/network/router
-github.com/micro/go-micro/network/router/proto
 github.com/micro/go-micro/registry/gossip/proto
 github.com/micro/go-micro/util/grpc
 github.com/micro/go-micro/transport/grpc/proto
 # github.com/micro/go-plugins v0.24.1
-github.com/micro/go-plugins/registry/kubernetes
-github.com/micro/go-plugins/selector/static
 github.com/micro/go-plugins/broker/grpc
 github.com/micro/go-plugins/client/grpc
 github.com/micro/go-plugins/server/grpc
+github.com/micro/go-plugins/registry/kubernetes
+github.com/micro/go-plugins/selector/static
+github.com/micro/go-plugins/broker/grpc/proto
 github.com/micro/go-plugins/registry/kubernetes/client
 github.com/micro/go-plugins/registry/kubernetes/client/watch
-github.com/micro/go-plugins/broker/grpc/proto
 github.com/micro/go-plugins/registry/kubernetes/client/api
 # github.com/micro/go-rcache v0.1.0
 github.com/micro/go-rcache
 # github.com/micro/kubernetes v0.7.0
 github.com/micro/kubernetes/go/micro
-# github.com/micro/mdns v0.2.0
+# github.com/micro/mdns v0.1.0
 github.com/micro/mdns
 # github.com/micro/util v0.1.0
 github.com/micro/util/go/lib/addr
 github.com/micro/util/go/lib/net
 github.com/micro/util/go/lib/tls
 github.com/micro/util/go/lib/grpc
-# github.com/miekg/dns v1.1.15
+# github.com/miekg/dns v1.1.14
 github.com/miekg/dns
 # github.com/mitchellh/go-homedir v1.1.0
 github.com/mitchellh/go-homedir
@@ -151,7 +146,7 @@ github.com/modern-go/reflect2
 github.com/nats-io/nats.go
 github.com/nats-io/nats.go/encoders/builtin
 github.com/nats-io/nats.go/util
-# github.com/nats-io/nkeys v0.1.0
+# github.com/nats-io/nkeys v0.0.2
 github.com/nats-io/nkeys
 # github.com/nats-io/nuid v1.0.1
 github.com/nats-io/nuid
@@ -171,14 +166,14 @@ golang.org/x/net/http2/h2c
 golang.org/x/net/http/httpguts
 golang.org/x/net/http2/hpack
 golang.org/x/net/idna
+golang.org/x/net/trace
 golang.org/x/net/ipv4
 golang.org/x/net/ipv6
-golang.org/x/net/trace
+golang.org/x/net/internal/timeseries
 golang.org/x/net/bpf
 golang.org/x/net/internal/iana
 golang.org/x/net/internal/socket
-golang.org/x/net/internal/timeseries
-# golang.org/x/sys v0.0.0-20190710143415-6ec70d6a5542
+# golang.org/x/sys v0.0.0-20190621062556-bf70e4678053
 golang.org/x/sys/unix
 golang.org/x/sys/windows
 # golang.org/x/text v0.3.2
@@ -186,9 +181,9 @@ golang.org/x/text/secure/bidirule
 golang.org/x/text/unicode/bidi
 golang.org/x/text/unicode/norm
 golang.org/x/text/transform
-# google.golang.org/genproto v0.0.0-20190708153700-3bdd9d9f5532
+# google.golang.org/genproto v0.0.0-20190620144150-6af8c5fc6601
 google.golang.org/genproto/googleapis/rpc/status
-# google.golang.org/grpc v1.22.0
+# google.golang.org/grpc v1.21.1
 google.golang.org/grpc
 google.golang.org/grpc/credentials
 google.golang.org/grpc/encoding
@@ -215,7 +210,6 @@ google.golang.org/grpc/naming
 google.golang.org/grpc/resolver
 google.golang.org/grpc/resolver/dns
 google.golang.org/grpc/resolver/passthrough
-google.golang.org/grpc/serviceconfig
 google.golang.org/grpc/stats
 google.golang.org/grpc/tap
 google.golang.org/grpc/credentials/internal

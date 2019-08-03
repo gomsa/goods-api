@@ -12,7 +12,6 @@ import (
 	"github.com/micro/go-micro/metadata"
 	"github.com/micro/go-micro/registry"
 	"github.com/micro/go-micro/server"
-	"github.com/micro/go-micro/util/buf"
 )
 
 const (
@@ -168,7 +167,7 @@ func validateSubscriber(sub server.Subscriber) error {
 }
 
 func (g *grpcServer) createSubHandler(sb *subscriber, opts server.Options) broker.Handler {
-	return func(p broker.Event) error {
+	return func(p broker.Publication) error {
 		msg := p.Message()
 		ct := msg.Header["Content-Type"]
 		if len(ct) == 0 {
@@ -205,11 +204,11 @@ func (g *grpcServer) createSubHandler(sb *subscriber, opts server.Options) broke
 				req = req.Elem()
 			}
 
-			b := buf.New(bytes.NewBuffer(msg.Body))
+			b := &buffer{bytes.NewBuffer(msg.Body)}
 			co := cf(b)
 			defer co.Close()
 
-			if err := co.ReadHeader(&codec.Message{}, codec.Event); err != nil {
+			if err := co.ReadHeader(&codec.Message{}, codec.Publication); err != nil {
 				return err
 			}
 

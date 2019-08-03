@@ -12,7 +12,7 @@ import (
 // used to determine health, status and env info about
 // a service node. It's akin to Google's /statusz, /healthz,
 // and /varz
-type Handler interface {
+type DebugHandler interface {
 	Health(ctx context.Context, req *proto.HealthRequest, rsp *proto.HealthResponse) error
 	Stats(ctx context.Context, req *proto.StatsRequest, rsp *proto.StatsResponse) error
 }
@@ -22,13 +22,8 @@ type debug struct {
 	started int64
 }
 
-// We use this to wrap any debug handlers so we preserve the signature Debug.{Method}
-type Debug struct {
-	Handler
-}
-
 var (
-	DefaultHandler Handler = newDebug()
+	DefaultDebugHandler DebugHandler = newDebug()
 )
 
 func newDebug() *debug {

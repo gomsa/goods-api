@@ -33,7 +33,7 @@ func (j *jsonCodec) Write(m *codec.Message, b interface{}) error {
 		return j.c.Write(m, b)
 	case codec.Response, codec.Error:
 		return j.s.Write(m, b)
-	case codec.Event:
+	case codec.Publication:
 		data, err := json.Marshal(b)
 		if err != nil {
 			return err
@@ -54,7 +54,7 @@ func (j *jsonCodec) ReadHeader(m *codec.Message, mt codec.MessageType) error {
 		return j.s.ReadHeader(m)
 	case codec.Response:
 		return j.c.ReadHeader(m)
-	case codec.Event:
+	case codec.Publication:
 		_, err := io.Copy(j.buf, j.rwc)
 		return err
 	default:
@@ -69,7 +69,7 @@ func (j *jsonCodec) ReadBody(b interface{}) error {
 		return j.s.ReadBody(b)
 	case codec.Response:
 		return j.c.ReadBody(b)
-	case codec.Event:
+	case codec.Publication:
 		if b != nil {
 			return json.Unmarshal(j.buf.Bytes(), b)
 		}

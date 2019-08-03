@@ -5,13 +5,11 @@ import (
 	"errors"
 	"fmt"
 	"math/rand"
-	"net"
+	"strings"
 	"sync"
 	"time"
 
 	"github.com/micro/go-micro/transport"
-	maddr "github.com/micro/go-micro/util/addr"
-	mnet "github.com/micro/go-micro/util/net"
 )
 
 type memorySocket struct {
@@ -24,7 +22,6 @@ type memorySocket struct {
 
 	local  string
 	remote string
-	sync.RWMutex
 }
 
 type memoryClient struct {
@@ -37,18 +34,16 @@ type memoryListener struct {
 	exit chan bool
 	conn chan *memorySocket
 	opts transport.ListenOptions
-	sync.RWMutex
 }
 
 type memoryTransport struct {
 	opts transport.Options
-	sync.RWMutex
+
+	sync.Mutex
 	listeners map[string]*memoryListener
 }
 
 func (ms *memorySocket) Recv(m *transport.Message) error {
-	ms.RLock()
-	defer ms.RUnlock()
 	select {
 	case <-ms.exit:
 		return errors.New("connection closed")
@@ -69,8 +64,6 @@ func (ms *memorySocket) Remote() string {
 }
 
 func (ms *memorySocket) Send(m *transport.Message) error {
-	ms.RLock()
-	defer ms.RUnlock()
 	select {
 	case <-ms.exit:
 		return errors.New("connection closed")
@@ -82,8 +75,6 @@ func (ms *memorySocket) Send(m *transport.Message) error {
 }
 
 func (ms *memorySocket) Close() error {
-	ms.Lock()
-	defer ms.Unlock()
 	select {
 	case <-ms.exit:
 		return nil
@@ -98,8 +89,6 @@ func (m *memoryListener) Addr() string {
 }
 
 func (m *memoryListener) Close() error {
-	m.Lock()
-	defer m.Unlock()
 	select {
 	case <-m.exit:
 		return nil
@@ -128,8 +117,8 @@ func (m *memoryListener) Accept(fn func(transport.Socket)) error {
 }
 
 func (m *memoryTransport) Dial(addr string, opts ...transport.DialOption) (transport.Client, error) {
-	m.RLock()
-	defer m.RUnlock()
+	m.Lock()
+	defer m.Unlock()
 
 	listener, ok := m.listeners[addr]
 	if !ok {
@@ -172,24 +161,15 @@ func (m *memoryTransport) Listen(addr string, opts ...transport.ListenOption) (t
 		o(&options)
 	}
 
-	host, port, err := net.SplitHostPort(addr)
-	if err != nil {
-		return nil, err
-	}
-
-	addr, err = maddr.Extract(host)
-	if err != nil {
-		return nil, err
-	}
+	parts := strings.Split(addr, ":")
 
 	// if zero port then randomly assign one
-	if len(port) > 0 && port == "0" {
-		i := rand.Intn(20000)
-		port = fmt.Sprintf("%d", 10000+i)
+	if len(parts) > 1 && parts[len(parts)-1] == "0" {
+		r := rand.New(rand.NewSource(time.Now().UnixNano()))
+		i := r.Intn(10000)
+		// set addr with port
+		addr = fmt.Sprintf("%s:%d", parts[:len(parts)-1], 10000+i)
 	}
-
-	// set addr with port
-	addr = mnet.HostPort(addr, port)
 
 	if _, ok := m.listeners[addr]; ok {
 		return nil, errors.New("already listening on " + addr)
@@ -223,7 +203,6 @@ func (m *memoryTransport) String() string {
 }
 
 func NewTransport(opts ...transport.Option) transport.Transport {
-	rand.Seed(time.Now().UnixNano())
 	var options transport.Options
 	for _, o := range opts {
 		o(&options)

@@ -1,7 +1,7 @@
 package registry
 
 import (
-	"fmt"
+	"errors"
 	"strings"
 
 	"github.com/micro/mdns"
@@ -53,7 +53,8 @@ func (m *mdnsWatcher) Next() (*Result, error) {
 
 			service.Nodes = append(service.Nodes, &Node{
 				Id:       strings.TrimSuffix(e.Name, "."+service.Name+".local."),
-				Address:  fmt.Sprintf("%s:%d", e.AddrV4.String(), e.Port),
+				Address:  e.AddrV4.String(),
+				Port:     e.Port,
 				Metadata: txt.Metadata,
 			})
 
@@ -62,7 +63,7 @@ func (m *mdnsWatcher) Next() (*Result, error) {
 				Service: service,
 			}, nil
 		case <-m.exit:
-			return nil, ErrWatcherStopped
+			return nil, errors.New("watcher stopped")
 		}
 	}
 }
