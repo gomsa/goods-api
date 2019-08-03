@@ -11,7 +11,7 @@ github.com/golang/protobuf/ptypes/struct
 github.com/golang/protobuf/ptypes/any
 github.com/golang/protobuf/ptypes/duration
 github.com/golang/protobuf/ptypes/timestamp
-# github.com/gomsa/tools v0.0.0-20190803010621-41e4027d207c
+# github.com/gomsa/tools v0.0.0-20190803083338-9ad904bacc9a
 github.com/gomsa/tools/config
 github.com/gomsa/tools/k8s/client
 # github.com/gomsa/user v0.0.0-20190713014816-bcd837144465
@@ -70,9 +70,9 @@ github.com/micro/go-micro
 github.com/micro/go-micro/util/log
 github.com/micro/go-micro/client
 github.com/micro/go-micro/server
+github.com/micro/go-micro/metadata
 github.com/micro/go-micro/broker
 github.com/micro/go-micro/cmd
-github.com/micro/go-micro/metadata
 github.com/micro/go-micro/registry
 github.com/micro/go-micro/selector
 github.com/micro/go-micro/transport
@@ -110,14 +110,14 @@ github.com/micro/go-micro/registry/gossip/proto
 github.com/micro/go-micro/util/grpc
 github.com/micro/go-micro/transport/grpc/proto
 # github.com/micro/go-plugins v0.24.1
+github.com/micro/go-plugins/registry/kubernetes
+github.com/micro/go-plugins/selector/static
 github.com/micro/go-plugins/broker/grpc
 github.com/micro/go-plugins/client/grpc
 github.com/micro/go-plugins/server/grpc
-github.com/micro/go-plugins/registry/kubernetes
-github.com/micro/go-plugins/selector/static
-github.com/micro/go-plugins/broker/grpc/proto
 github.com/micro/go-plugins/registry/kubernetes/client
 github.com/micro/go-plugins/registry/kubernetes/client/watch
+github.com/micro/go-plugins/broker/grpc/proto
 github.com/micro/go-plugins/registry/kubernetes/client/api
 # github.com/micro/go-rcache v0.1.0
 github.com/micro/go-rcache
@@ -166,13 +166,13 @@ golang.org/x/net/http2/h2c
 golang.org/x/net/http/httpguts
 golang.org/x/net/http2/hpack
 golang.org/x/net/idna
-golang.org/x/net/trace
 golang.org/x/net/ipv4
 golang.org/x/net/ipv6
-golang.org/x/net/internal/timeseries
+golang.org/x/net/trace
 golang.org/x/net/bpf
 golang.org/x/net/internal/iana
 golang.org/x/net/internal/socket
+golang.org/x/net/internal/timeseries
 # golang.org/x/sys v0.0.0-20190621062556-bf70e4678053
 golang.org/x/sys/unix
 golang.org/x/sys/windows

@@ -8,7 +8,6 @@ import (
 	"github.com/micro/go-micro/util/log"
 	k8s "github.com/micro/kubernetes/go/micro"
 
-	client "github.com/gomsa/tools/k8s/client"
 	userClient "github.com/gomsa/user/client"
 	m "github.com/gomsa/user/middleware"
 
@@ -35,9 +34,8 @@ func main() {
 	srv.Init()
 
 	ServiceName := os.Getenv("GOODS_NAME")
-	C := client.DefaultClient
 	// 服务实现
-	goodsPB.RegisterGoodsHandler(srv.Server(), &hander.Goods{C, ServiceName})
+	goodsPB.RegisterGoodsHandler(srv.Server(), &hander.Goods{ServiceName})
 	// brandPB.RegisterBrandsHandler(srv.Server(), &hander.Brand{serviceName})
 	// firmPB.RegisterFirmsHandler(srv.Server(), &hander.Firm{serviceName})
 	// categoryPB.RegisterCategorysHandler(srv.Server(), &hander.Category{serviceName})
