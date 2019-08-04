@@ -8,7 +8,7 @@ import (
 	pb "github.com/gomsa/goods-api/proto/goods"
 )
 
-// Goods 部门结构
+// Goods 商品结构
 type Goods struct {
 	ServiceName string
 }

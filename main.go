@@ -13,12 +13,12 @@ import (
 
 	"github.com/gomsa/goods-api/hander"
 	// 接口引用
-	// brandPB "github.com/gomsa/goods-api/proto/brand"
-	// categoryPB "github.com/gomsa/goods-api/proto/category"
-	// departmentPB "github.com/gomsa/goods-api/proto/department"
-	// firmPB "github.com/gomsa/goods-api/proto/firm"
+	brandPB "github.com/gomsa/goods-api/proto/brand"
+	categoryPB "github.com/gomsa/goods-api/proto/category"
+	departmentPB "github.com/gomsa/goods-api/proto/department"
+	firmPB "github.com/gomsa/goods-api/proto/firm"
 	goodsPB "github.com/gomsa/goods-api/proto/goods"
-	// unspscPB "github.com/gomsa/goods-api/proto/unspsc"
+	unspscPB "github.com/gomsa/goods-api/proto/unspsc"
 )
 
 func main() {
@@ -36,11 +36,11 @@ func main() {
 	ServiceName := os.Getenv("GOODS_NAME")
 	// 服务实现
 	goodsPB.RegisterGoodsHandler(srv.Server(), &hander.Goods{ServiceName})
-	// brandPB.RegisterBrandsHandler(srv.Server(), &hander.Brand{serviceName})
-	// firmPB.RegisterFirmsHandler(srv.Server(), &hander.Firm{serviceName})
-	// categoryPB.RegisterCategorysHandler(srv.Server(), &hander.Category{serviceName})
-	// departmentPB.RegisterDepartmentsHandler(srv.Server(), &hander.Department{serviceName})
-	// unspscPB.RegisterUnspscsHandler(srv.Server(), &hander.Unspsc{serviceName})
+	brandPB.RegisterBrandsHandler(srv.Server(), &hander.Brand{ServiceName})
+	firmPB.RegisterFirmsHandler(srv.Server(), &hander.Firm{ServiceName})
+	categoryPB.RegisterCategorysHandler(srv.Server(), &hander.Category{ServiceName})
+	departmentPB.RegisterDepartmentsHandler(srv.Server(), &hander.Department{ServiceName})
+	unspscPB.RegisterUnspscsHandler(srv.Server(), &hander.Unspsc{ServiceName})
 
 	// Run the server
 	if err := srv.Run(); err != nil {
