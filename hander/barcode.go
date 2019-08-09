@@ -34,11 +34,16 @@ func (srv *Barcode) Get(ctx context.Context, req *pb.Request, res *pb.Response) 
 		log.Log(err)
 		json.Unmarshal([]byte(r), res)
 	} else {
-		err = client.Call(ctx, srv.ServiceName, "Barcodes.Get", req, res)
 		log.Log("3")
+		log.Log(r)
+		log.Log(err)
+		err = client.Call(ctx, srv.ServiceName, "Barcodes.Get", req, res)
+		log.Log("4")
 		log.Log(res)
 		log.Log(err)
-		redis.SetNX(label, res, 0)
+		err = redis.SetNX(label, res, 0).Err()
+		log.Log("5")
+		log.Log(err)
 	}
 	return err
 }
