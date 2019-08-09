@@ -46,6 +46,13 @@ spec:
               value: "user.srv"
             - name: GOODS_NAME
               value: "goods.srv"
+            - name: REDIS_HOST
+              value: "redis-master"
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: redis-password
+                  name: redis
           ports:
           - containerPort: 8080
             name: micro
