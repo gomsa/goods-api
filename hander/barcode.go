@@ -27,13 +27,17 @@ func (srv *Barcode) Get(ctx context.Context, req *pb.Request, res *pb.Response) 
 	redis := redis.NewClient()
 	log.Log(label)
 	log.Log(req)
+	log.Log("1")
 	if r, err := redis.Get(label).Result(); err != nil && r != "" {
+		log.Log("2")
 		log.Log(r)
 		log.Log(err)
 		json.Unmarshal([]byte(r), res)
 	} else {
-		err = client.Call(ctx, srv.ServiceName, "Barcode.Get", req, res)
-		log.Log(res, err)
+		err = client.Call(ctx, srv.ServiceName, "Barcodes.Get", req, res)
+		log.Log("3")
+		log.Log(res)
+		log.Log(err)
 		redis.SetNX(label, res, 0)
 	}
 	return err
