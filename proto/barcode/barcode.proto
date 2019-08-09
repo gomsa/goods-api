@@ -3,25 +3,32 @@ syntax = "proto3";
 package barcodes;
 
 service Barcodes {
-    // 根据 唯一 获取商品信息 
+    // 通过条形查询商品信息
     rpc Get(Request) returns (Response) {}
 }
+
 // Goods
 message Goods {
-    string id = 1;              // 商品条码()
-    string good_id = 2;         // 商品UUID
-    string stock_id = 3;        // 库存自动UUID(多条码可以使用一个库存[禁止不同价格使用同一库存UUID])
-    int64 price = 4;            // 价格
-    int64 width = 5;            // 宽(毫米)
-    int64 height = 6;           // 高(毫米)
-    int64 depth = 7;            // 深(毫米)
-    string unit = 8;            // 单位(件、个、斤...)
-    string spec = 9;            // 规格(口味)
-    int64 grossweight = 10;     // 总重(克)
-    int64 netweight = 11;       // 净重(克)
-    string imgage = 12;         // 主图
-    string created_at = 13;
-    string updated_at = 14;
+    string Barcode = 1;             // 条码
+    string Name = 2;                // 产品名称
+    string EnName = 3;              // 产品英文名称
+    repeated string Image = 4;      // 产品图片
+    string BrandName = 5;           // 品牌
+    string Specification = 6;       // 规格
+    string Unit = 7;                // 单位
+    int64 Width = 8;                // 宽(毫米)
+    int64 Height = 9;               // 高(毫米)
+    int64 Depth = 10;               // 深(毫米)
+    int64 netweight = 11;           // 净重(克)
+    int64 GrossWeight = 12;         // 总重(克)
+    int64 Unspsc = 13;              // 商品及服务编码
+    string UnspscName = 14;         // 商品及服务编码分类名称
+    string Source = 15;             // 产地代码
+    string Place = 16;              // 产地
+    string Country = 17;            // 国家
+    string FirmName = 18;           // 公司名称
+    string FirmAddress = 19;        // 公司地址
+    string FirmStatus = 20;         // 公司状态
 }
 
 message Request {
