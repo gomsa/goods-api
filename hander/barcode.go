@@ -28,7 +28,7 @@ func (srv *Barcode) Get(ctx context.Context, req *pb.Request, res *pb.Response) 
 	log.Log(label)
 	log.Log(req)
 	log.Log("1")
-	if r, err := redis.Get(label).Result(); err != nil && r != "" {
+	if r, err := redis.Get(label).Result(); err == nil && r != "" {
 		log.Log("2")
 		log.Log(r)
 		log.Log(err)
