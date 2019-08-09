@@ -13,6 +13,7 @@ import (
 
 	"github.com/gomsa/goods-api/hander"
 	// 接口引用
+	barcodePB "github.com/gomsa/goods-api/proto/barcode"
 	brandPB "github.com/gomsa/goods-api/proto/brand"
 	categoryPB "github.com/gomsa/goods-api/proto/category"
 	departmentPB "github.com/gomsa/goods-api/proto/department"
@@ -35,6 +36,7 @@ func main() {
 
 	ServiceName := os.Getenv("GOODS_NAME")
 	// 服务实现
+	barcodePB.RegisterBarcodesHandler(srv.Server(), &hander.Barcode{ServiceName})
 	goodsPB.RegisterGoodsHandler(srv.Server(), &hander.Goods{ServiceName})
 	brandPB.RegisterBrandsHandler(srv.Server(), &hander.Brand{ServiceName})
 	firmPB.RegisterFirmsHandler(srv.Server(), &hander.Firm{ServiceName})

@@ -7,6 +7,7 @@ dev:
 	make build && make run
 
 build:
+	protoc -I . --go_out=plugins=micro:. proto/barcode/barcode.proto
 	protoc -I . --go_out=plugins=micro:. proto/goods/goods.proto
 	protoc -I . --go_out=plugins=micro:. proto/taxcode/taxcode.proto
 	protoc -I . --go_out=plugins=micro:. proto/unspsc/unspsc.proto

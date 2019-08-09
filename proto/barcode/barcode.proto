@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package barcodes;
+
+service Barcodes {
+    // 根据 唯一 获取商品信息 
+    rpc Get(Request) returns (Response) {}
+}
+// Goods
+message Goods {
+    string id = 1;              // 商品条码()
+    string good_id = 2;         // 商品UUID
+    string stock_id = 3;        // 库存自动UUID(多条码可以使用一个库存[禁止不同价格使用同一库存UUID])
+    int64 price = 4;            // 价格
+    int64 width = 5;            // 宽(毫米)
+    int64 height = 6;           // 高(毫米)
+    int64 depth = 7;            // 深(毫米)
+    string unit = 8;            // 单位(件、个、斤...)
+    string spec = 9;            // 规格(口味)
+    int64 grossweight = 10;     // 总重(克)
+    int64 netweight = 11;       // 净重(克)
+    string imgage = 12;         // 主图
+    string created_at = 13;
+    string updated_at = 14;
+}
+
+message Request {
+    Goods goods = 1;            // 商品主信息
+}
+
+message Response {
+    Goods goods = 1;            // 商品详细信息
+    bool valid = 2;             // 操作状态返回
+}
