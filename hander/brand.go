@@ -15,32 +15,32 @@ type Brand struct {
 
 // Exist 查询品牌否存在
 func (srv *Brand) Exist(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
-	return client.Call(ctx, srv.ServiceName, "Brand.Exist", req, res)
+	return client.Call(ctx, srv.ServiceName, "Brands.Exist", req, res)
 }
 
 // All 根据条形码查询品牌
 func (srv *Brand) All(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
-	return client.Call(ctx, srv.ServiceName, "Brand.All", req, res)
+	return client.Call(ctx, srv.ServiceName, "Brands.All", req, res)
 }
 
 // List 获取所有品牌
 func (srv *Brand) List(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
-	return client.Call(ctx, srv.ServiceName, "Brand.List", req, res)
+	return client.Call(ctx, srv.ServiceName, "Brands.List", req, res)
 }
 
 // Get 获取品牌
 func (srv *Brand) Get(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
-	return client.Call(ctx, srv.ServiceName, "Brand.Get", req, res)
+	return client.Call(ctx, srv.ServiceName, "Brands.Get", req, res)
 }
 
 // Create 创建品牌
 func (srv *Brand) Create(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
-	return client.Call(ctx, srv.ServiceName, "Brand.Create", req, res)
+	return client.Call(ctx, srv.ServiceName, "Brands.Create", req, res)
 }
 
 // Update 更新品牌
 func (srv *Brand) Update(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
-	return client.Call(ctx, srv.ServiceName, "Brand.Update", req, res)
+	return client.Call(ctx, srv.ServiceName, "Brands.Update", req, res)
 }
 
 // Delete 删除品牌品牌
