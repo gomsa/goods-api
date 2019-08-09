@@ -41,9 +41,10 @@ func (srv *Barcode) Get(ctx context.Context, req *pb.Request, res *pb.Response) 
 		log.Log("4")
 		log.Log(res)
 		log.Log(err)
-		err = redis.SetNX(label, res, 0).Err()
+		j, _ := json.Marshal(res)
+		err = redis.SetNX(label, j, 0).Err()
 		log.Log("5")
-		log.Log(err)
+		log.Log(j)
 	}
 	return err
 }
