@@ -24,7 +24,8 @@ func (srv *Barcode) Get(ctx context.Context, req *pb.Request, res *pb.Response) 
 	}
 	label := "barcode:" + req.Goods.Barcode
 	redis := redis.NewClient()
-	if r, err := redis.Get(label).Result(); err == nil && r != "" {
+	// 报错时 没有数据时 强制更新缓存时 远程读取数据写入 redis
+	if r, err := redis.Get(label).Result(); err == nil && r != "" && !req.Cache {
 		json.Unmarshal([]byte(r), res)
 	} else {
 		err = client.Call(ctx, srv.ServiceName, "Barcodes.Get", req, res)

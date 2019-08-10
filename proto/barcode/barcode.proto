@@ -33,6 +33,7 @@ message Goods {
 
 message Request {
     Goods goods = 1;            // 商品主信息
+    bool cache = 2;             // 是否强制更新缓存 (默认读取 redis 缓存, 缓存永久有效)
 }
 
 message Response {
