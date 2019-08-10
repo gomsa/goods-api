@@ -9,6 +9,8 @@ var Conf config.Config = config.Config{
 	Service: "goods-api",
 	Version: "latest",
 	Permissions: []config.Permission{
+		{Service: "goods-api", Method: "Barcodes.Get", Auth: true, Policy: true, Name: "获取商品信息", Description: "通过条码获取商品信息权限"},
+
 		{Service: "goods-api", Method: "Goods.GoodsByBarcode", Auth: true, Policy: true, Name: "条形码查询商品", Description: "根据条形码查询商品权限"},
 		{Service: "goods-api", Method: "Goods.Exist", Auth: true, Policy: true, Name: "查询条形码是否存在", Description: "查询条形码是否存在权限"},
 		{Service: "goods-api", Method: "Goods.DeleteBarcode", Auth: true, Policy: true, Name: "删除商品条码", Description: "删除商品下面对应条码的子商品"},
