@@ -33,7 +33,7 @@ func (srv *Barcode) Get(ctx context.Context, req *pb.Request, res *pb.Response) 
 		}
 		// 数据写入 redis
 		j, _ := json.Marshal(res)
-		err = redis.SetNX(label, j, 0).Err()
+		err = redis.Set(label, j, 0).Err()
 		if err != nil {
 			return err
 		}
