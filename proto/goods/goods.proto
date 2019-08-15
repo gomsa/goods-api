@@ -140,5 +140,6 @@ message Request {
 message Response {
     Good good = 1;           // 商品详细信息
     repeated Good goods = 2; // 商品详细信息
-    bool valid = 3;          // 操作状态返回
+    int64 total = 3;         // 查询总数
+    bool valid = 4;          // 操作状态返回
 }
