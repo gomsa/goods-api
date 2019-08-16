@@ -60,7 +60,7 @@ message Barcode {
     string spec = 9;            // 规格(口味)
     int64 grossweight = 10;     // 总重(克)
     int64 netweight = 11;       // 净重(克)
-    string imgage = 12;         // 主图
+    string images = 12;         // 主图
     string created_at = 13;
     string updated_at = 14;
 }
