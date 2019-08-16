@@ -26,7 +26,7 @@ message Good {
     string id = 1;                  // 商品ID(UUID)
     string code = 2;                // 自编码(货号)
     string name = 3;                // 商品名称
-    string eng_name = 4;            // 英文名称
+    string en_name = 4;            // 英文名称
     string description = 5;         // 商品描述
     int64 status = 6;               // 商品状态(下架-1、上架1、线上2、外卖3)
     int64 brand_id = 7;             // 品牌ID
