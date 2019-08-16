@@ -12,7 +12,7 @@ message Goods {
     string barcode = 1;             // 条码
     string name = 2;                // 产品名称
     string en_name = 3;             // 产品英文名称
-    repeated string image = 4;      // 产品图片
+    repeated string images = 4;      // 产品图片
     string brand_name = 5;          // 品牌
     string specification = 6;       // 规格
     string unit = 7;                // 单位
