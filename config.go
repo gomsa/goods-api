@@ -57,6 +57,8 @@ var Conf config.Config = config.Config{
 		{Service: "goods-api", Method: "Taxcode.Update", Auth: true, Policy: true, Name: "国家税收分类编码更新", Description: "国家税收分类编码更新信息权限"},
 		{Service: "goods-api", Method: "Taxcode.Delete", Auth: true, Policy: true, Name: "国家税收分类编码删除", Description: "国家税收分类编码删除权限"},
 
+		{Service: "goods-api", Method: "Unspsc.CheckCreate", Auth: true, Policy: true, Name: "国际商品及服务编码批量创建", Description: "国际商品及服务编码批量创建(一组创建)权限"},
+		{Service: "goods-api", Method: "Unspsc.Exist", Auth: true, Policy: true, Name: "国际商品及服务编码是否存在", Description: "国际商品及服务编码是否存在权限"},
 		{Service: "goods-api", Method: "Unspsc.All", Auth: true, Policy: true, Name: "国际商品及服务编码全部", Description: "国际商品及服务编码查询全部权限"},
 		{Service: "goods-api", Method: "Unspsc.List", Auth: true, Policy: true, Name: "国际商品及服务编码列表", Description: "国际商品及服务编码查询列表权限"},
 		{Service: "goods-api", Method: "Unspsc.Create", Auth: true, Policy: true, Name: "国际商品及服务编码创建", Description: "国际商品及服务编码创建权限"},
