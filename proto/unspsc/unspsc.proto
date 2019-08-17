@@ -3,6 +3,10 @@ syntax = "proto3";
 package unspsc;
 
 service Unspscs {
+    // 检查批量创建
+    rpc CheckCreate(Request) returns (Response) {}
+    // 检查国际商品及服务编码
+    rpc Exist(Request) returns (Response) {}
     // 全部国际商品及服务编码
     rpc All(Request) returns (Response) {}
     // 获取国际商品及服务编码编码列表

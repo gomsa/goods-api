@@ -3,7 +3,7 @@ syntax = "proto3";
 package firm;
 
 service Firms {
-    // 品牌是否存在
+    // 检查商品公司
     rpc Exist(Request) returns (Response) {}
     // 全部商品公司
     rpc All(Request) returns (Response) {}

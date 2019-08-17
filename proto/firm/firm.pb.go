@@ -298,7 +298,7 @@ var _ server.Option
 // Client API for Firms service
 
 type FirmsClient interface {
-	// 品牌是否存在
+	// 检查商品公司
 	Exist(ctx context.Context, in *Request, opts ...client.CallOption) (*Response, error)
 	// 全部商品公司
 	All(ctx context.Context, in *Request, opts ...client.CallOption) (*Response, error)
@@ -405,7 +405,7 @@ func (c *firmsClient) Delete(ctx context.Context, in *Request, opts ...client.Ca
 // Server API for Firms service
 
 type FirmsHandler interface {
-	// 品牌是否存在
+	// 检查商品公司
 	Exist(context.Context, *Request, *Response) error
 	// 全部商品公司
 	All(context.Context, *Request, *Response) error

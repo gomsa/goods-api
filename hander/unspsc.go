@@ -13,6 +13,16 @@ type Unspsc struct {
 	ServiceName string
 }
 
+// CheckCreate 检查批量创建
+func (srv *Unspsc) CheckCreate(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
+	return client.Call(ctx, srv.ServiceName, "Unspscs.CheckCreate", req, res)
+}
+
+// Exist 检查国际商品及服务编码
+func (srv *Unspsc) Exist(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
+	return client.Call(ctx, srv.ServiceName, "Unspscs.Exist", req, res)
+}
+
 // All 根据条形码查询国际分类
 func (srv *Unspsc) All(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
 	return client.Call(ctx, srv.ServiceName, "Unspscs.All", req, res)
