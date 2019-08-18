@@ -2,6 +2,7 @@ package hander
 
 import (
 	"context"
+	"fmt"
 
 	client "github.com/gomsa/tools/k8s/client"
 
@@ -40,6 +41,20 @@ func (srv *Goods) Get(ctx context.Context, req *pb.Request, res *pb.Response) (e
 
 // Create 创建商品
 func (srv *Goods) Create(ctx context.Context, req *pb.Request, res *pb.Response) (err error) {
+	if req.Good.Code == "" {
+		return fmt.Errorf("自编码不允许为空")
+	}
+	if req.Good.Name == "" {
+		return fmt.Errorf("商品名称不允许为空")
+	}
+	for _, barcode := range req.Good.Barcodes {
+		if barcode.Id == "" {
+			return fmt.Errorf("条形码不允许为空")
+		}
+		if barcode.Price == 0 {
+			return fmt.Errorf("%s 商品价格不允许为空", barcode.Id)
+		}
+	}
 	return client.Call(ctx, srv.ServiceName, "Goods.Create", req, res)
 }
 
