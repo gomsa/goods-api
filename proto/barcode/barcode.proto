@@ -19,8 +19,8 @@ message Goods {
     int64 width = 8;                // 宽(毫米)
     int64 height = 9;               // 高(毫米)
     int64 depth = 10;               // 深(毫米)
-    int64 net_weight = 11;          // 净重(克)
-    int64 gross_weight = 12;        // 总重(克)
+    int64 netweight = 11;          // 净重(克)
+    int64 grossweight = 12;        // 总重(克)
     int64 unspsc = 13;              // 商品及服务编码
     string unspsc_name = 14;        // 商品及服务编码分类名称
     string source = 15;             // 产地代码
